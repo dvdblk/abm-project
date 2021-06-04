@@ -2,6 +2,20 @@
 
 ## Getting Started
 
+### Directory Structure
+
+```
+.
+├── README.md
+├── environment.yml
+├── lib                                       # lib package, contains MG logic
+│   ├── agents                                # agents package, Agent related code
+│   └── minority_game.py, strategies.py, ...  # modules
+└── notebooks                                 # notebooks folder
+    ├── allow_local_imports.py
+    └── example.ipynb                         # example notebook
+```
+
 ### Setting up the environment (optional)
 Install [Conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) or update conda to the latest version:
 
@@ -22,7 +36,4 @@ If you need to **update** one of the conda packages:
 
 ### Running the project
 
-```
-python mg/minority_game.py
-```
-
+Open `notebooks/example.ipynb` and check the example of how to run stuff in this repo.
