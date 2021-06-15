@@ -5,7 +5,7 @@ from lib.error import MinorityGameError
 class MinorityGame:
     """Base class for running a minority game (MG) simulation."""
 
-    def __init__(self, n_agents: int, factory_dict, max_history=50, seed=None) -> None:
+    def __init__(self, n_agents: int, factory_dict, max_history=50, rng=None) -> None:
         """
         Args:
             n_agents (int): the number of agents `N`, must be odd
@@ -13,14 +13,14 @@ class MinorityGame:
                                  keys are the fractions of total_agents to produce
                                  from the AgentFactories
             max_history (int): the maximum history that will be kept in the game memory
-            seed (int): the seed used in the random number generator
+            rng (Generator): the random number generator used in the game
         """
         if n_agents % 2 == 0:
             raise MinorityGameError("Number of agents should be odd")
         self.n_agents = n_agents
 
         # Random Number Generator
-        self.rng = np.random.default_rng(seed)
+        self.rng = rng or np.random.default_rng()
 
         # Agents
         total_agent_frac = np.sum(list(factory_dict.keys()))

@@ -5,12 +5,24 @@ from lib.error import MinorityGameError
 class Agent:
     """Base class for agents"""
 
-    def __init__(self, rng=None, memory_size=3, strategy_clss=[]):
+    def __init__(self, rng, memory_size=3, strategy_clss=[]):
+        """
+        Args:
+            rng (Generator): the random number generator
+            memory_size (int): the memory size given to this agent by some
+                               memory generator
+            strategy_clss: the classes of strategies that this agent will use
+        """
         self.rng = rng
         self.m = memory_size
+
+        # Initialize the strategies
         strategies = []
         for strategy_cls in strategy_clss:
-            strategies.append(strategy_cls(rng, memory_size))
+            new_strategy = strategy_cls(rng, memory_size)
+            strategies.append(
+                new_strategy
+            )
         self.strategies = strategies
 
     def _scores(self):
@@ -57,18 +69,46 @@ class Agent:
 class StrategyUpdatingAgent(Agent):
     """Agent that can update his strategy"""
 
-    def __init__(self, rng=None, memory_size=3, strategy_clss=[], strategy_update_rate=0.5):
+    def __init__(self, rng, memory_size=3, strategy_clss=[], strategy_update_rate=0.5, strategy_update_fraction=1):
+        """
+        Args:
+            rng (Generator): the random number generator
+            memory_size (int): the memory size given to this agent by some
+                               memory generator
+            strategy_clss: the classes of strategies that this agent will use
+            strategy_update_rate (float): the probability at which an agent
+                                          updates all of his strategies at the
+                                          end of a round
+            strategy_update_fraction (float): the fraction of strategy vector
+                                              that will be updated on strategy
+                                              updates (defaults to 1 = entire
+                                              strategy vector is updated / reset)
+        """
         super().__init__(rng, memory_size, strategy_clss)
 
-        if (strategy_update_rate < 0 or strategy_update_rate >= 1):
+        if (strategy_update_rate < 0 or strategy_update_rate > 1):
             raise MinorityGameError("Strategy update rate should be in the range [0, 1)")
-        self.gamma = strategy_update_rate
+        self.update_rate = strategy_update_rate
+
+        if (strategy_update_fraction < 0 or strategy_update_fraction > 1):
+            raise MinorityGameError("Strategy update fraction should be in the range [0, 1)")
+        self.update_fraction = strategy_update_fraction
+
+    def _update_strategies(self):
+        """
+        Update the strategies by taking into account the fraction
+        of strategy vector to update.
+        """
+        for strategy in self.strategies:
+            strategy.update_strategy_vector(self.update_fraction)
 
     def update_scores(self, round_winner, history):
         super().update_scores(round_winner, history)
 
         # Update the strategies if needed
-        if self.gamma is not None:
-            if self.rng.uniform() <= self.gamma:
-                # Reset strategies but keep the scores
-                self.reset_strategies()
+        if self.rng.uniform() <= self.update_rate:
+            # Change only some strategies
+            self._update_strategies()
+
+
+
