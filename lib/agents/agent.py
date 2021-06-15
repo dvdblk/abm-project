@@ -25,6 +25,8 @@ class Agent:
             )
         self.strategies = strategies
 
+        self.win_history = []
+
     def _scores(self):
         scores = np.zeros(len(self.strategies))
         for i, strat in enumerate(self.strategies):
@@ -43,13 +45,38 @@ class Agent:
         binary_history = ((history[-strategy.memory_size:] + 1) / 2).astype(int)
         return int("".join(map(str, binary_history)), 2)
 
-    def update_scores(self, round_winner, history):
+    def update_scores(self, round_winner, action_taken, history):
+        """
+        Update the scores depending on the round winner and
+        history.
+
+        Args:
+            round_winner (int): 1 or -1, the last winning action
+            action_taken (int): 1 or -1, the action this agent took
+                                in last round
+            history (np.array): 1D array of game history [1, 1, -1, ..., 1]
+        """
+        # Update the scores
         for i, strategy in enumerate(self.strategies):
             mu_t = self._compute_mu_t(strategy, history)
             if strategy.strategy_vector[mu_t] == round_winner:
                 strategy.score += 1
             else:
                 strategy.score -= 1
+
+        # Update history based on actions
+        self.win_history.append(
+            round_winner == action_taken
+        )
+
+    def success_rate(self):
+        """
+        Compute the success rate of this agent based on win history
+
+        Returns:
+            float: in range [0, 1]
+        """
+        return np.array(self.win_history).mean()
 
     def choose_action(self, history):
         # Find the highest strategy score index
@@ -102,8 +129,8 @@ class StrategyUpdatingAgent(Agent):
         for strategy in self.strategies:
             strategy.update_strategy_vector(self.update_fraction)
 
-    def update_scores(self, round_winner, history):
-        super().update_scores(round_winner, history)
+    def update_scores(self, round_winner, action_taken, history):
+        super().update_scores(round_winner, action_taken, history)
 
         # Update the strategies if needed
         if self.rng.uniform() <= self.update_rate:

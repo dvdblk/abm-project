@@ -1,5 +1,7 @@
 import numpy as np
+from numpy.lib.arraysetops import isin
 from lib.error import MinorityGameError
+from typing import List
 
 
 class MinorityGame:
@@ -58,7 +60,7 @@ class MinorityGame:
         for agent in self.agents:
             agent.reset_strategy_scores()
 
-    def _update_scores_and_history(self, A_t: int):
+    def _update_scores_and_history(self, A_t: int, actions: List[int]):
         """
         Compute the round winner, update history and strategy scores for each
         agent by mu_t
@@ -72,8 +74,13 @@ class MinorityGame:
         round_winner = -1 if A_t > 0 else 1
 
         # For each agent update his strategy scores
-        for agent in self.agents:
-            agent.update_scores(round_winner, self.history)
+        for i, agent in enumerate(self.agents):
+            agent_action = actions[i]
+            agent.update_scores(
+                round_winner,
+                agent_action,
+                self.history
+            )
 
         # Update history
         # Roll the current history to the left by one
@@ -98,7 +105,7 @@ class MinorityGame:
         A_t = np.sum(actions)
 
         # Update scores and history accordingly
-        self._update_scores_and_history(A_t)
+        self._update_scores_and_history(A_t, actions)
 
         return A_t
 
@@ -110,6 +117,25 @@ class MinorityGame:
                             multiple repetitions / time
         """
         return A_t.var()
+
+    def total_success_rate(self, agent_cls=None):
+        """
+        Compute total success rate by taking the mean of success
+        rates of each agent.
+
+        Args:
+            agent_cls: the filter class to use while computing
+                       the total success rate. If None is used
+                       (default) the success rate is computed as
+                       the average between all agents.
+        """
+        succes_rates = np.zeros(len(self.agents))
+        for i, agent in enumerate(self.agents):
+            if agent_cls is not None:
+                if not isinstance(agent, agent_cls):
+                    continue
+            succes_rates[i] = agent.success_rate()
+        return succes_rates.mean()
 
     def simulate_game(self, max_steps=500):
         """Simulate a Minority Game
