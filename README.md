@@ -36,4 +36,16 @@ If you need to **update** one of the conda packages:
 
 ### Running the project
 
+Open conda shell: 
+on Mac: `source ~/<path to anaconda3>/bin/activate`
+on Windows: search and open **anaconda3 prompt**
+
+Activate the environment:
+
+`conda activate abm-project`
+
 Open `notebooks/example.ipynb` and check the example of how to run stuff in this repo.
+
+Deactivate Environment:
+
+`conda deactivate`
