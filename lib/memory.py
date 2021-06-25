@@ -27,3 +27,24 @@ class UniformMemoryGenerator(BaseMemoryGenerator):
 
     def generate(self, size):
         return np.ones(size, dtype=np.int32) * self.m
+
+
+
+class GumbelDistributionMemoryGenerator(BaseMemoryGenerator):
+    """
+    Samples memory from a gumbel distribution.
+    (Skwed distribution of memory)
+    """
+
+    def generate(self, size):
+        return self.rng.gumbel(self.m, 0.5, size).astype(int)
+
+
+class NormalDistributionMemoryGenerator(BaseMemoryGenerator):
+    """
+    Samples memory from a distribution
+    (Memories are distributed by normal distribution.)
+    """
+
+    def generate(self, size):
+        return self.rng.normal(self.m, 0.5, size).astype(int)
