@@ -37,7 +37,7 @@ class GumbelDistributionMemoryGenerator(BaseMemoryGenerator):
     """
 
     def generate(self, size):
-        return self.rng.gumbel(self.m, 0.5, size).astype(int)
+        return self.rng.gumbel(self.m, 2, size).astype(int)
 
 
 class NormalDistributionMemoryGenerator(BaseMemoryGenerator):
@@ -47,4 +47,4 @@ class NormalDistributionMemoryGenerator(BaseMemoryGenerator):
     """
 
     def generate(self, size):
-        return self.rng.normal(self.m, 0.5, size).astype(int)
+        return self.rng.normal(self.m, 2, size).astype(int)
