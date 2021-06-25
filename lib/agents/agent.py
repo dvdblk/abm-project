@@ -41,11 +41,7 @@ class Agent:
         for strat in self.strategies:
             strat._initialize_strategy_vector()
 
-    def _compute_mu_t(self, strategy, history):
-        binary_history = ((history[-strategy.memory_size:] + 1) / 2).astype(int)
-        return int("".join(map(str, binary_history)), 2)
-
-    def update_scores(self, round_winner, action_taken, history):
+    def update_scores(self, round_winner, action_taken, game_state):
         """
         Update the scores depending on the round winner and
         history.
@@ -54,11 +50,12 @@ class Agent:
             round_winner (int): 1 or -1, the last winning action
             action_taken (int): 1 or -1, the action this agent took
                                 in last round
-            history (np.array): 1D array of game history [1, 1, -1, ..., 1]
+            game_state (GameState): GameState object, used to get mu_t
+                                    for the chosen strategy
         """
         # Update the scores
         for i, strategy in enumerate(self.strategies):
-            mu_t = self._compute_mu_t(strategy, history)
+            mu_t = game_state.get_mu_t(strategy.memory_size)
             if strategy.strategy_vector[mu_t] == round_winner:
                 strategy.score += 1
             else:
@@ -78,18 +75,27 @@ class Agent:
         """
         return np.array(self.win_history).mean()
 
-    def choose_action(self, history):
+    def get_best_strategy(self):
         # Find the highest strategy score index
         scores = self._scores()
         best_strategies = np.argwhere(scores == np.amax(scores)).flatten()
         # Sometimes the strategies might have the same score. If that's the
         # case, rng.choice will choose one randomly. If there is only one strategy
         # rng.choice will have only one choice.
-        best_strategy_idx = self.rng.choice(best_strategies)
-        best_strategy_mu_t = self._compute_mu_t(self.strategies[best_strategy_idx], history)
+        if len(best_strategies) > 1:
+            best_strategy_idx = self.rng.choice(best_strategies)
+        else:
+            best_strategy_idx = best_strategies[0]
+        return self.strategies[best_strategy_idx]
+
+
+    def choose_action(self, game_state):
+        best_strategy = self.get_best_strategy()
+        m = best_strategy.memory_size
+        best_strategy_mu_t = game_state.get_mu_t(m)
 
         # Get the outcome of this strategy and use it as agent's action
-        a_t = self.strategies[best_strategy_idx].strategy_vector[best_strategy_mu_t]
+        a_t = best_strategy.strategy_vector[best_strategy_mu_t]
         return a_t
 
 

@@ -7,3 +7,6 @@ dependencies:
   - matplotlib
   - notebook
   - pycodestyle
+  - scipy
+  - pandas
+  - seaborn
