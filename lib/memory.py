@@ -29,22 +29,28 @@ class UniformMemoryGenerator(BaseMemoryGenerator):
         return np.ones(size, dtype=np.int32) * self.m
 
 
+class BaseScaleMemoryGenerator(BaseMemoryGenerator):
 
-class GumbelDistributionMemoryGenerator(BaseMemoryGenerator):
+    def __init__(self, m, scale, rng=None):
+        super(BaseScaleMemoryGenerator, self).__init__(m, rng=rng)
+        self.scale = scale
+
+
+class GumbelDistributionMemoryGenerator(BaseScaleMemoryGenerator):
     """
     Samples memory from a gumbel distribution.
     (Skwed distribution of memory)
     """
 
     def generate(self, size):
-        return self.rng.gumbel(self.m, 2, size).astype(int)
+        return self.rng.gumbel(self.m, self.scale, size).astype(int)
 
 
-class NormalDistributionMemoryGenerator(BaseMemoryGenerator):
+class NormalDistributionMemoryGenerator(BaseScaleMemoryGenerator):
     """
     Samples memory from a distribution
     (Memories are distributed by normal distribution.)
     """
 
     def generate(self, size):
-        return self.rng.normal(self.m, 2, size).astype(int)
+        return self.rng.normal(self.m, self.scale, size).astype(int)
