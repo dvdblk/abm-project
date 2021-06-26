@@ -25,7 +25,7 @@ class MinorityGame:
         self.n_agents = n_agents
 
         # Random Number Generator
-        self.rng = rng or np.random.default_rng()
+        self.rng = rng or np.random.default_rng(0)
 
         # Agents
         total_agent_frac = np.sum(list(factory_dict.keys()))
