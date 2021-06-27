@@ -39,6 +39,7 @@ class VectorizedMinorityGame:
         strats_groups = []
         # The memory size for each agent in the game
         self.memory_sizes = []
+        highest_m = 0
 
         # Last agent index, used for keeping track of indices of agents in
         # each memory group.
