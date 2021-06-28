@@ -9,30 +9,21 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 1,
    "metadata": {},
    "outputs": [],
    "source": [
+    "# Include this on top, as the first import \n",
+    "# This must always be imported first. If you are restarting the notebook\n",
+    "# don't forget to run this cell first!\n",
     "import allow_local_imports"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 4,
    "metadata": {},
-   "outputs": [
-    {
-     "ename": "ModuleNotFoundError",
-     "evalue": "No module named 'lib.minority_game'",
-     "output_type": "error",
-     "traceback": [
-      "\u001b[1;31m---------------------------------------------------------------------------\u001b[0m",
-      "\u001b[1;31mModuleNotFoundError\u001b[0m                       Traceback (most recent call last)",
-      "\u001b[1;32m<ipython-input-9-ef6a2670bdb6>\u001b[0m in \u001b[0;36m<module>\u001b[1;34m\u001b[0m\n\u001b[1;32m----> 1\u001b[1;33m \u001b[1;32mfrom\u001b[0m \u001b[0mlib\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mminority_game\u001b[0m \u001b[1;32mimport\u001b[0m \u001b[0mMinorityGame\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mMinorityGameIndividualAgents\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0m\u001b[0;32m      2\u001b[0m \u001b[1;32mfrom\u001b[0m \u001b[0mlib\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0magents\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0magent\u001b[0m \u001b[1;32mimport\u001b[0m \u001b[0mAgent\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mStrategyUpdatingAgent\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m      3\u001b[0m \u001b[1;32mfrom\u001b[0m \u001b[0mlib\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0magents\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mfactory\u001b[0m \u001b[1;32mimport\u001b[0m \u001b[0mAgentFactory\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m      4\u001b[0m \u001b[1;32mfrom\u001b[0m \u001b[0mlib\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mstrategies\u001b[0m \u001b[1;32mimport\u001b[0m \u001b[0mAlwaysOneStrategy\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mDefaultStrategy\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mFiftyFiftyStrategy\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m      5\u001b[0m \u001b[1;32mfrom\u001b[0m \u001b[0mlib\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mmemory\u001b[0m \u001b[1;32mimport\u001b[0m \u001b[0mUniformMemoryGenerator\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mGumbelDistributionMemoryGenerator\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mNormalDistributionMemoryGenerator\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n",
-      "\u001b[1;31mModuleNotFoundError\u001b[0m: No module named 'lib.minority_game'"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "from lib.minority_game import MinorityGame, MinorityGameIndividualAgents\n",
     "from lib.agents.agent import Agent, StrategyUpdatingAgent\n",

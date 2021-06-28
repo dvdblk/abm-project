@@ -218,7 +218,10 @@ class MinorityGame:
 
 
 class MinorityGameIndividualAgents(MinorityGame):
-    """Minority game simulation with results for each group of agents split by their memory size."""
+    """Minority game simulation with results for each group of agents split by their memory size.
+
+    Returns: 
+    """
 
     def _game_step(self):
         """Runs a simulation of one round of MG."""
