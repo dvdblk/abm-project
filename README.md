@@ -1,19 +1,29 @@
 # Minority Game (ABM Project - FS21)
+This repository contains the source code and results for the paper "The Minority Game Simulation & Implications".
+
 
 ## Getting Started
 
 ### Directory Structure
 
+Here is a high-level overview of the repositories and some files in this repo:
 ```
 .
+├── LICENSE
 ├── README.md
 ├── environment.yml
-├── lib                                       # lib package, contains MG logic
-│   ├── agents                                # agents package, Agent related code
-│   └── minority_game.py, strategies.py, ...  # modules
-└── notebooks                                 # notebooks folder
-    ├── allow_local_imports.py
-    └── example.ipynb                         # example notebook
+├── lib/                                # lib package, contains source code
+│   ├── agents/                         # agents package, Agent related code
+│   ├── minority_game.py                # MG
+│   ├── minority_game_vectorized.py     # Vectorized version of MG
+│   └── plots.py, strategies.py, ...    # modules
+├── examples/                           # contains notebooks that show some functionality
+│   ├── distances.ipynb
+│   └── example.ipynb
+└── scenarios/                          # contains notebooks that were used in the paper
+│   ├── Scenario_1.ipynb
+│   └── Scenario_2.ipynb
+│   └── out/                            # contains all the plots produced or referred by the notebooks
 ```
 
 ### Setting up the environment (optional)
@@ -36,4 +46,6 @@ If you need to **update** one of the conda packages:
 
 ### Running the project
 
-Open `notebooks/example.ipynb` and check the example of how to run stuff in this repo.
+If you want to run the project you can either re-run the scenarios in the `scenarios/` folder or take a look at some smaller examples in the `examples/` folder.
+
+Both folders contain jupyter notebooks with most of the code imported from `lib/`.

@@ -1,0 +1,1 @@
+This folder contains examples of how to use this library as well as code that wasn't used in the scenarios.
