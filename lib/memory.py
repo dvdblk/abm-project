@@ -13,7 +13,7 @@ class BaseMemoryGenerator:
             rng (Generator): the random number generator that should be used
         """
         self.m = m
-        self.rng = rng or np.random.default_rng()
+        self.rng = rng or np.random.default_rng(0)
 
     def generate(self, size):
         raise NotImplementedError
@@ -27,3 +27,30 @@ class UniformMemoryGenerator(BaseMemoryGenerator):
 
     def generate(self, size):
         return np.ones(size, dtype=np.int32) * self.m
+
+
+class BaseScaleMemoryGenerator(BaseMemoryGenerator):
+
+    def __init__(self, m, scale, rng=None):
+        super(BaseScaleMemoryGenerator, self).__init__(m, rng=rng)
+        self.scale = scale
+
+
+class GumbelDistributionMemoryGenerator(BaseScaleMemoryGenerator):
+    """
+    Samples memory from a gumbel distribution.
+    (Skewed distribution of memory)
+    """
+
+    def generate(self, size):
+        return self.rng.gumbel(self.m, self.scale, size).astype(int)
+
+
+class NormalDistributionMemoryGenerator(BaseScaleMemoryGenerator):
+    """
+    Samples memory from a distribution
+    (Memories are distributed by normal distribution.)
+    """
+
+    def generate(self, size):
+        return self.rng.normal(self.m, self.scale, size).astype(int)
