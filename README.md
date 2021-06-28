@@ -21,6 +21,9 @@ Here is a high-level overview of the repositories and some files in this repo:
 │   ├── distances.ipynb
 │   └── example.ipynb
 └── scenarios/                          # contains notebooks that were used in the paper
+│   ├── Scenario_1.ipynb
+│   └── Scenario_2.ipynb
+│   └── out/                            # contains all the plots produced or referred by the notebooks
 ```
 
 ### Setting up the environment (optional)
